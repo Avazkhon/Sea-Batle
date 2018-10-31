@@ -28,7 +28,7 @@
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
-	background: url("./images/sea.jpg");
+	background-image: url("./images/sea.jpg");
 }
 
 #comp {
@@ -39,11 +39,39 @@
 	float: left;
 }
 
-.seaMill {
+.seaMill
+ {
 	width: 25px;
 	height: 25px;
 	margin: 3px;
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
+}
+
+.seaMillA {
+	width: 23px;
+	height: 23px;
+	background-image: url('./images/total.jpg');
+	overflow: hidden;
+}
+
+.seaMillB {
+	width: 23px;
+	height: 23px;
+	background-image: url('./images/total.jpg');
+	overflow: hidden;
+}
+
+.seaMillC {
+	width: 23px;
+	height: 23px;
+	background-image: url('./images/total.jpg');
+	overflow: hidden;
+}
+.seaMillD {
+	width: 23px;
+	height: 23px;
+	background-image: url('./images/total.jpg');
+	/*overflow: hidden;*/
 }
