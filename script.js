@@ -6,6 +6,8 @@ const shipC = {deck: 2}
 
 const shipD = {deck: 1}
 
+let reset = 1;
+
 const seaBatle = [
 	0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,
@@ -36,8 +38,35 @@ const coordinates = [
 for(let i = 0; i < 100; i++ ) {
 	document.getElementById('user').innerHTML += `<div class='seaMill' id='coordinates${coordinates[i]}'></div>`;
 }
+		// clsss для поиска свободного места в коорденате seaBatle
+class ShipDeck {
 
-let reset = 1;
+	constructor(asd) {
+		this.asd = asd;
+	}
+
+	sayDeck () {
+		let num = Math.floor(Math.random() * (0,  99)) + 1;
+		if (
+			seaBatle[num] == 0 &&
+			seaBatle[num + 1] == 0 &&
+			seaBatle[num - 1] == 0 &&
+			seaBatle[num - 9] == 0 &&
+			seaBatle[num + 9] == 0 &&
+			seaBatle[num + 10] == 0 &&
+			seaBatle[num - 10] == 0 &&
+			seaBatle[num - 11] == 0 &&
+			seaBatle[num + 11] == 0 
+			) 
+		{
+			seaBatle[num] = shipD.deck;
+			document.getElementById(`coordinates${coordinates[num]}`).innerHTML += "<div class='seaMillD'></div>";
+		}else {
+			this.sayDeck();
+		}
+	}
+}
+
 
 // страт и размищение кораблей
 function start (){
@@ -80,7 +109,7 @@ function start (){
 
 	};
 
-		for(let i = 1; i <= 2; i ++) {
+	for(let i = 1; i <= 2; i ++) {
 		const numB = Math.floor(Math.random() * (0,  99)) + 1;
 		if(seaBatle[numB] == 0) {
 			seaBatle[numB] = shipB.deck;
@@ -97,7 +126,7 @@ function start (){
 		}
 	}
 
-		for(let i = 1; i <= 3; i ++) {
+	for(let i = 1; i <= 3; i ++) {
 		const numC = Math.floor(Math.random() * (0,  99)) + 1;
 		if(seaBatle[numC] == 0) {
 			seaBatle[numC] = shipC.deck;
@@ -109,27 +138,10 @@ function start (){
 		}
 	}
 
-		for(let i = 1; i <= 4; i ++) {
-		const numD = Math.floor(Math.random() * (0,  99)) + 1;
-		if(seaBatle[numD] == 0) {
-			seaBatle[numD] = shipD.deck;
-			document.getElementById(`coordinates${coordinates[numD]}`).innerHTML += "<div class='seaMillD'></div>";
-		}
-
+	for(let i = 1; i <= 4; i ++) {
+		let item  = shipD.deck;
+		let shipDeckD = new ShipDeck(item);
+		shipDeckD.sayDeck();
 	}
 	console.log(seaBatle);
 }
-
-
-	// function arraySum(array){
-	// 	var sum = 0;
-	// 	for(var i = 0; i < array.length; i++){
-	// 		sum += array[i];
-	// 	}
-	// 	console.log(sum);
-	// }
-	// if( reset == true ) {
-	// 	location.reload();
-	// 	console.log('reload');
-	// 	console.log(reset());
-	// }
