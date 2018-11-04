@@ -8,7 +8,20 @@ const shipD = {deck: 1}
 
 let reset = 1;
 
-const seaBatle = [
+const seaUser = [
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,
+]
+
+const seaComp = [
 	0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,
@@ -37,27 +50,30 @@ const coordinates = [
 // clsss для поиска свободного места в коорденате seaBatle
 class ShipDeck {
 
-	constructor(value, seaMillN) {
+	constructor(value, seaMillN, player, playerSea) {
 		this.value = value;
 		this.seaMillN = seaMillN;
 		this.max = Math.floor(Math.random() * (1,  9) * 10) ;
+		this.player = player;
+		this.playerSea = playerSea
+		this.playerSea = (playerSea == "user")? seaUser : seaComp;
 	}
 
 	sayDeck () {
 		let num = Math.floor(Math.random() * (0,  99)) + 1;
 		if (
-			seaBatle[num] == 0 &&
-			seaBatle[num + 1] == 0 &&
-			seaBatle[num - 1] == 0 &&
-			seaBatle[num + 9] == 0 &&
-			seaBatle[num - 9] == 0 &&
-			seaBatle[num + 10] == 0 &&
-			seaBatle[num - 10] == 0 &&
-			seaBatle[num + 11] == 0 &&
-			seaBatle[num - 11] == 0
+			this.playerSea[num] == 0 &&
+			this.playerSea[num + 1] == 0 &&
+			this.playerSea[num - 1] == 0 &&
+			this.playerSea[num + 9] == 0 &&
+			this.playerSea[num - 9] == 0 &&
+			this.playerSea[num + 10] == 0 &&
+			this.playerSea[num - 10] == 0 &&
+			this.playerSea[num + 11] == 0 &&
+			this.playerSea[num - 11] == 0
 			) {
-			seaBatle[num] = this.value;
-			document.getElementById(`coordinates${coordinates[num]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			this.playerSea[num] = this.value;
+			document.getElementById(`${this.player}${coordinates[num]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
 
 		}else {
 			this.sayDeck();
@@ -74,49 +90,48 @@ class ShipDeck {
 			randomC < 89 &&  //проверка на росcтояния снизу
 			randomCWS == 1 &&  // определяет положения относительно sea
 			// проверка sea на свободные места
-			seaBatle[randomC] == 0 &&
-			seaBatle[randomC + 1] == 0 &&
-			seaBatle[randomC - 1] == 0 &&
-			seaBatle[randomC + 9] == 0 &&
-			seaBatle[randomC - 9] == 0 &&
-			seaBatle[randomC + 10] == 0 &&
-			seaBatle[randomC - 10] == 0 &&
-			seaBatle[randomC + 11] == 0 &&
-			seaBatle[randomC - 11] == 0 &&
-			seaBatle[randomC + 19] == 0 &&
-			seaBatle[randomC + 20] == 0 &&
-			seaBatle[randomC + 21] == 0
+			this.playerSea[randomC] == 0 &&
+			this.playerSea[randomC + 1] == 0 &&
+			this.playerSea[randomC - 1] == 0 &&
+			this.playerSea[randomC + 9] == 0 &&
+			this.playerSea[randomC - 9] == 0 &&
+			this.playerSea[randomC + 10] == 0 &&
+			this.playerSea[randomC - 10] == 0 &&
+			this.playerSea[randomC + 11] == 0 &&
+			this.playerSea[randomC - 11] == 0 &&
+			this.playerSea[randomC + 19] == 0 &&
+			this.playerSea[randomC + 20] == 0 &&
+			this.playerSea[randomC + 21] == 0
 
 		) {
 			// присвоение точке в sea значения ship
-			seaBatle[randomC] = this.value;
-			seaBatle[randomC + 10] = this.value;
+			this.playerSea[randomC] = this.value;
+			this.playerSea[randomC + 10] = this.value;
 			// отрисовка ship на экране (coordinates) 
-			document.getElementById(`coordinates${coordinates[randomC]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomC + 10]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomC]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomC + 10]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
 				
 		}
 		else if (
 			randomC <= this.max - 10 + 8 &&
 			randomCWS == 2 &&
-			seaBatle[randomC] == 0 &&
-			seaBatle[randomC + 1] == 0 &&
-			seaBatle[randomC - 1] == 0 &&
-			seaBatle[randomC + 9] == 0 &&
-			seaBatle[randomC - 9] == 0 &&
-			seaBatle[randomC + 10] == 0 &&
-			seaBatle[randomC - 10] == 0 &&
-			seaBatle[randomC + 11] == 0 &&
-			seaBatle[randomC - 11] == 0 &&
-			seaBatle[randomC - 8] == 0 &&
-			seaBatle[randomC + 2] == 0 &&
-			seaBatle[randomC + 12] == 0
+			this.playerSea[randomC] == 0 &&
+			this.playerSea[randomC + 1] == 0 &&
+			this.playerSea[randomC - 1] == 0 &&
+			this.playerSea[randomC + 9] == 0 &&
+			this.playerSea[randomC - 9] == 0 &&
+			this.playerSea[randomC + 10] == 0 &&
+			this.playerSea[randomC - 10] == 0 &&
+			this.playerSea[randomC + 11] == 0 &&
+			this.playerSea[randomC - 11] == 0 &&
+			this.playerSea[randomC - 8] == 0 &&
+			this.playerSea[randomC + 2] == 0 &&
+			this.playerSea[randomC + 12] == 0
 		) {
-			seaBatle[randomC] = this.value;
-			seaBatle[randomC + 1] = this.value;
-			document.getElementById(`coordinates${coordinates[randomC]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomC + 1]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			console.log(this.max - 10 + 8);
+			this.playerSea[randomC] = this.value;
+			this.playerSea[randomC + 1] = this.value;
+			document.getElementById(`${this.player}${coordinates[randomC]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomC + 1]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
 		}
 		else {
 			// если инструкции выше не сработает повторить
@@ -131,55 +146,55 @@ class ShipDeck {
 			if (
 				randomB < 79 &&
 				randomBWS == 1 &&
-				seaBatle[randomB] == 0 &&
-				seaBatle[randomB + 1] == 0 &&
-				seaBatle[randomB - 1] == 0 &&
-				seaBatle[randomB + 9] == 0 &&
-				seaBatle[randomB - 9] == 0 &&
-				seaBatle[randomB + 10] == 0 &&
-				seaBatle[randomB - 10] == 0 &&
-				seaBatle[randomB + 11] == 0 &&
-				seaBatle[randomB - 11] == 0 &&
-				seaBatle[randomB + 19] == 0 &&
-				seaBatle[randomB + 20] == 0 &&
-				seaBatle[randomB + 21] == 0 &&
-				seaBatle[randomB + 29] == 0 &&
-				seaBatle[randomB + 30] == 0 &&
-				seaBatle[randomB + 31] == 0
+				this.playerSea[randomB] == 0 &&
+				this.playerSea[randomB + 1] == 0 &&
+				this.playerSea[randomB - 1] == 0 &&
+				this.playerSea[randomB + 9] == 0 &&
+				this.playerSea[randomB - 9] == 0 &&
+				this.playerSea[randomB + 10] == 0 &&
+				this.playerSea[randomB - 10] == 0 &&
+				this.playerSea[randomB + 11] == 0 &&
+				this.playerSea[randomB - 11] == 0 &&
+				this.playerSea[randomB + 19] == 0 &&
+				this.playerSea[randomB + 20] == 0 &&
+				this.playerSea[randomB + 21] == 0 &&
+				this.playerSea[randomB + 29] == 0 &&
+				this.playerSea[randomB + 30] == 0 &&
+				this.playerSea[randomB + 31] == 0
 
 			) {
-				seaBatle[randomB] = this.value;
-				seaBatle[randomB + 10] = this.value;
-				seaBatle[randomB + 20] = this.value;
-				document.getElementById(`coordinates${coordinates[randomB]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-				document.getElementById(`coordinates${coordinates[randomB + 10]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-				document.getElementById(`coordinates${coordinates[randomB + 20]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;			
+				this.playerSea[randomB] = this.value;
+				this.playerSea[randomB + 10] = this.value;
+				this.playerSea[randomB + 20] = this.value;
+				document.getElementById(`${this.player}${coordinates[randomB]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+				document.getElementById(`${this.player}${coordinates[randomB + 10]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+				document.getElementById(`${this.player}${coordinates[randomB + 20]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;			
 		}
 		else if (
 				randomB < this.max - 10 + 6 &&
 				randomBWS == 2 &&
-				seaBatle[randomB] == 0 &&
-				seaBatle[randomB + 1] == 0 &&
-				seaBatle[randomB - 1] == 0 &&
-				seaBatle[randomB + 9] == 0 &&
-				seaBatle[randomB - 9] == 0 &&
-				seaBatle[randomB + 10] == 0 &&
-				seaBatle[randomB - 10] == 0 &&
-				seaBatle[randomB + 11] == 0 &&
-				seaBatle[randomB - 11] == 0 &&
-				seaBatle[randomB - 8] == 0 &&
-				seaBatle[randomB + 2] == 0 &&
-				seaBatle[randomB + 12] == 0 &&
-				seaBatle[randomB - 7] == 0 &&
-				seaBatle[randomB + 3] == 0 &&
-				seaBatle[randomB + 13] == 0
+				this.playerSea[randomB] == 0 &&
+				this.playerSea[randomB + 1] == 0 &&
+				this.playerSea[randomB - 1] == 0 &&
+				this.playerSea[randomB + 9] == 0 &&
+				this.playerSea[randomB - 9] == 0 &&
+				this.playerSea[randomB + 10] == 0 &&
+				this.playerSea[randomB - 10] == 0 &&
+				this.playerSea[randomB + 11] == 0 &&
+				this.playerSea[randomB - 11] == 0 &&
+				this.playerSea[randomB - 8] == 0 &&
+				this.playerSea[randomB + 2] == 0 &&
+				this.playerSea[randomB + 12] == 0 &&
+				this.playerSea[randomB - 7] == 0 &&
+				this.playerSea[randomB + 3] == 0 &&
+				this.playerSea[randomB + 13] == 0
 			) {
-			seaBatle[randomB] = this.value;
-			seaBatle[randomB + 1] = this.value;
-			seaBatle[randomB + 2] = this.value;
-			document.getElementById(`coordinates${coordinates[randomB]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomB + 1]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomB + 2]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			this.playerSea[randomB] = this.value;
+			this.playerSea[randomB + 1] = this.value;
+			this.playerSea[randomB + 2] = this.value;
+			document.getElementById(`${this.player}${coordinates[randomB]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomB + 1]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomB + 2]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
 		}
 		else {
 			this.sayDeckB();
@@ -194,15 +209,15 @@ class ShipDeck {
 			randomA < 69 &&
 			randomAWS == 1 
 			) {
-			seaBatle[randomA] = this.value;
-			seaBatle[randomA + 10] = this.value;
-			seaBatle[randomA + 20] = this.value;
-			seaBatle[randomA + 30] = this.value;
+			this.playerSea[randomA] = this.value;
+			this.playerSea[randomA + 10] = this.value;
+			this.playerSea[randomA + 20] = this.value;
+			this.playerSea[randomA + 30] = this.value;
 
-			document.getElementById(`coordinates${coordinates[randomA]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomA + 10]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomA + 20]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomA + 30]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA + 10]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA + 20]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA + 30]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
 
 		}
 
@@ -210,15 +225,15 @@ class ShipDeck {
 			randomA < this.max - 10 + 5 &&
 			randomAWS == 2
 			) {
-			seaBatle[randomA] = this.value;
-			seaBatle[randomA + 1] = this.value;
-			seaBatle[randomA + 2] = this.value;
-			seaBatle[randomA + 3] = this.value;
+			this.playerSea[randomA] = this.value;
+			this.playerSea[randomA + 1] = this.value;
+			this.playerSea[randomA + 2] = this.value;
+			this.playerSea[randomA + 3] = this.value;
 
-			document.getElementById(`coordinates${coordinates[randomA]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomA + 1]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomA + 2]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
-			document.getElementById(`coordinates${coordinates[randomA + 3]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA + 1]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA + 2]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			document.getElementById(`${this.player}${coordinates[randomA + 3]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
 		}
 		else {
 			this.sayDeckA();
@@ -229,40 +244,76 @@ class ShipDeck {
 
 // отрисовка блоков 
 for(let i = 0; i < 100; i++ ) {
-	document.getElementById('user').innerHTML += `<div class='seaMill' id='coordinates${coordinates[i]}'></div>`;
+	document.getElementById('playerUser').innerHTML += `<div class='seaMill' id='playerUserSea${coordinates[i]}'></div>`;
+}
+for(let i = 0; i < 100; i++ ) {
+	document.getElementById('playerComp').innerHTML += `<div class='seaMill' id='playerCompSea${coordinates[i]}'></div>`;
 }
 
 // страт и размищение кораблей
 function start (){
 	reset++
-		// перезагрузка страницы если корабли уже размещены. проверка не очевидна но пока сойдет
+	// перезагрузка страницы если корабли уже размещены. проверка не очевидна но пока сойдет
 	if(reset > 2) {
 		document.location.reload();
 	}
-	// for определяет кол-во палуб и кораблей
-	for(let i = 0; i < 1; i ++) {
-		// присваевает deck кораблю class
-		let item  = shipA.deck;
-		let shipDeckA = new ShipDeck(item, 'seaMillA');
-		shipDeckA.sayDeckA();
-	};
+	let  playerUser =  () => {
+			// for определяет кол-во палуб и кораблей
+		for(let i = 0; i < 1; i ++) {
+			// присваевает deck кораблю class
+			let item  = shipA.deck;
+			let shipDeckA = new ShipDeck(item, 'seaMillA', 'playerUserSea', 'user');
+			shipDeckA.sayDeckA();
+		};
 
-	for(let i = 0; i < 2; i ++) {
-			let item  = shipB.deck;
-			let shipDeckB = new ShipDeck(item, 'seaMillB');
-			shipDeckB.sayDeckB();
+		for(let i = 0; i < 2; i ++) {
+				let item  = shipB.deck;
+				let shipDeckB = new ShipDeck(item, 'seaMillB', 'playerUserSea', 'user');
+				shipDeckB.sayDeckB();
+		}
+
+		for(let i = 0; i < 3; i ++) {
+				let item  = shipC.deck;
+				let shipDeckC = new ShipDeck(item, 'seaMillC', 'playerUserSea', 'user');
+				shipDeckC.sayDeckC();
+		}
+
+		for(let i = 0; i < 4; i ++) {
+			let item  = shipD.deck;
+			let shipDeckD = new ShipDeck(item, 'seaMillD', 'playerUserSea', 'user');
+			shipDeckD.sayDeck();
+		}
 	}
 
-	for(let i = 0; i < 3; i ++) {
-			let item  = shipC.deck;
-			let shipDeckC = new ShipDeck(item, 'seaMillC');
-			shipDeckC.sayDeckC();
+		let  playerComp =  () => {
+			// for определяет кол-во палуб и кораблей
+		for(let i = 0; i < 1; i ++) {
+			// присваевает deck кораблю class
+			let item  = shipA.deck;
+			let shipDeckA = new ShipDeck(item, 'seaMillA', 'playerCompSea', 'comp');
+			shipDeckA.sayDeckA();
+		};
+
+		for(let i = 0; i < 2; i ++) {
+				let item  = shipB.deck;
+				let shipDeckB = new ShipDeck(item, 'seaMillB', 'playerCompSea', 'comp');
+				shipDeckB.sayDeckB();
+		}
+
+		for(let i = 0; i < 3; i ++) {
+				let item  = shipC.deck;
+				let shipDeckC = new ShipDeck(item, 'seaMillC', 'playerCompSea', 'comp');
+				shipDeckC.sayDeckC();
+		}
+
+		for(let i = 0; i < 4; i ++) {
+			let item  = shipD.deck;
+			let shipDeckD = new ShipDeck(item, 'seaMillD', 'playerCompSea', 'comp');
+			shipDeckD.sayDeck();
+		}
 	}
 
-	for(let i = 0; i < 4; i ++) {
-		let item  = shipD.deck;
-		let shipDeckD = new ShipDeck(item, 'seaMillD');
-		shipDeckD.sayDeck();
-	}
-	console.log(seaBatle);
+	playerUser();
+	playerComp();
+	
 }

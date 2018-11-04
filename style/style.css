@@ -22,7 +22,7 @@
 }
 
 
-#user {
+#playerUser {
 	width: 330px;
 	height: 330px;
 	border: 1px solid;
@@ -31,12 +31,13 @@
 	background-image: url("../images/sea.jpg");
 }
 
-#comp {
+#playerComp {
 	width: 330px;
 	height: 330px;
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
+	background-image: url("../images/sea.jpg");
 }
 
 .seaMill
