@@ -244,11 +244,12 @@ class ShipDeck {
 
 // отрисовка блоков 
 for(let i = 0; i < 100; i++ ) {
-	document.getElementById('playerUser').innerHTML += `<div class='seaMill' id='playerUserSea${coordinates[i]}'></div>`;
+	document.getElementById('playerUser').innerHTML += `<div class='seaMillUser' id='playerUserSea${coordinates[i]}'></div>`;
 }
 for(let i = 0; i < 100; i++ ) {
-	document.getElementById('playerComp').innerHTML += `<div class='seaMill' id='playerCompSea${coordinates[i]}'></div>`;
+	document.getElementById('playerComp').innerHTML += `<div class='seaMillComp' id='playerCompSea${coordinates[i]}'></div>`;
 }
+
 
 // страт и размищение кораблей
 function start (){
@@ -315,5 +316,37 @@ function start (){
 
 	playerUser();
 	playerComp();
-	
+
+function goPlay () {
+		const seaMillComp = document.querySelectorAll('.seaMillComp');
+		const seaMillUser = document.querySelectorAll('.seaMillUser');
+			let runt = 'user';
+		if(runt === 'user') {
+			for (let i = 0; i < seaMillComp.length; i++) {
+			    let clickUser = seaMillComp[i];
+			    clickUser.onclick = function(e) {
+			    	console.log("user",i, runt);
+			    	next();
+			    	document.getElementById('massenge').innerHTML = `ходит игрок ${runt}`;
+			    }
+			}
+		}
+		
+		next();
+
+		if(runt === 'comp') {
+			for (let i = 0; i < seaMillUser.length; i++) {
+			    let clickComp = seaMillUser[i];
+			    clickComp.onclick = function(e) {
+			    	console.log("comp",i, runt);
+			    	next();
+			    	document.getElementById('massenge').innerHTML = `ходит игрок ${runt}`;
+			    }
+			}
+		}
+		function next() {
+			runt === 'user'? (runt = 'comp') : (runt = 'user');
+		}
+	}
+	goPlay();
 }
