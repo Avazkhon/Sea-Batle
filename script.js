@@ -8,6 +8,9 @@ const shipD = {deck: 1}
 
 let reset = 1;
 
+let fireUser;
+let fireComp;
+
 const seaUser = [
 	0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,
@@ -34,17 +37,18 @@ const seaComp = [
 	0,0,0,0,0,0,0,0,0,0,
 ]
 
+
 const coordinates = [
-	'100', '01', '02', '03', '04', '05', '06', '07', '08', '09',
-	'10', '11', '12', '13', '14', '15', '16', '17', '18', '19', 
-	'20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
-	'30', '31', '32', '33', '34', '35', '36 ','37', '38', '39',
-	'40', '41', '42', '43', '44', '45', '46', '47', '48', '49',
-	'50', '51', '52', '53', '54', '55', '56', '57', '58', '59',
-	'60', '61', '62', '63', '64', '65', '66', '67', '68', '69',
-	'70', '71', '72', '73', '74', '75', '76', '77', '78', '79',
-	'80', '81', '82', '83', '84', '85', '86', '87', '88', '89',
-	'90', '91', '92', '93', '94', '95', '96', '97', '98', '99',
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+	'11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
+	'21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+	'31', '32', '33', '34', '35', '36', '37', '38', '39', '40',
+	'41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
+	'51', '52', '53', '54', '55', '56', '57', '58', '59', '60',
+	'61', '62', '63', '64', '65', '66', '67', '68', '69', '70',
+	'71', '72', '73', '74', '75', '76', '77', '78', '79', '80',
+	'81', '82', '83', '84', '85', '86', '87', '88', '89', '90',
+	'91', '92', '93', '94', '95', '96', '97', '98', '99', '100',
 ]
 
 // clsss для поиска свободного места в коорденате seaBatle
@@ -53,14 +57,17 @@ class ShipDeck {
 	constructor(value, seaMillN, player, playerSea) {
 		this.value = value;
 		this.seaMillN = seaMillN;
-		this.max = Math.floor(Math.random() * (1,  9) * 10) ;
+		this.max = Math.floor(Math.random() * (1,  9)) * 10 ;
 		this.player = player;
 		this.playerSea = playerSea
 		this.playerSea = (playerSea == "user")? seaUser : seaComp;
+		fireUser = this.playerSea;
+		fireComp = this.playerSea;
+		// console.log('seaUser', seaUser, 'seaComp' ,seaComp  );
 	}
 
 	sayDeck () {
-		let num = Math.floor(Math.random() * (0,  99)) + 1;
+		let num = Math.floor(Math.random() * (0,  99)+ 1);
 		if (
 			this.playerSea[num] == 0 &&
 			this.playerSea[num + 1] == 0 &&
@@ -74,6 +81,7 @@ class ShipDeck {
 			) {
 			this.playerSea[num] = this.value;
 			document.getElementById(`${this.player}${coordinates[num]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;
+			console.log( );
 
 		}else {
 			this.sayDeck();
@@ -83,12 +91,12 @@ class ShipDeck {
 
 	sayDeckC() {
 		// определяет коорденаты
-		let randomC = Math.floor(Math.random() * (0,  99)) + 1;
+		let randomC = Math.floor(Math.random() * (0,  99) + 1);
 		// определяет положения относительно sea
-		let randomCWS = Math.floor(Math.random() * (0,  2) + 1);
+		let randomCWS = Math.floor(Math.random() * (0,  2)) + 1; // 1 верикальною, 2 вертикально
 			if (
 			randomC < 89 &&  //проверка на росcтояния снизу
-			randomCWS == 1 &&  // определяет положения относительно sea
+			randomCWS == 1 &&  // определяет положения относительно sea 
 			// проверка sea на свободные места
 			this.playerSea[randomC] == 0 &&
 			this.playerSea[randomC + 1] == 0 &&
@@ -113,7 +121,7 @@ class ShipDeck {
 				
 		}
 		else if (
-			randomC <= this.max - 10 + 8 &&
+			randomC <= this.max - 10 + 9 &&
 			randomCWS == 2 &&
 			this.playerSea[randomC] == 0 &&
 			this.playerSea[randomC + 1] == 0 &&
@@ -141,10 +149,10 @@ class ShipDeck {
 
 
 	sayDeckB() {
-		let randomB = Math.floor(Math.random() * (0,  99)) + 1;
-		let randomBWS = Math.floor(Math.random() * (0,  2) + 1);
+		let randomB = Math.floor(Math.random() * (0,  99) + 1);
+		let randomBWS = Math.floor(Math.random() * (0,  2)) + 1;
 			if (
-				randomB < 79 &&
+				randomB < 80 &&
 				randomBWS == 1 &&
 				this.playerSea[randomB] == 0 &&
 				this.playerSea[randomB + 1] == 0 &&
@@ -171,7 +179,7 @@ class ShipDeck {
 				document.getElementById(`${this.player}${coordinates[randomB + 20]}`).innerHTML += `<div class='${this.seaMillN}'></div>`;			
 		}
 		else if (
-				randomB < this.max - 10 + 6 &&
+				randomB < this.max - 10 + 8 &&
 				randomBWS == 2 &&
 				this.playerSea[randomB] == 0 &&
 				this.playerSea[randomB + 1] == 0 &&
@@ -202,11 +210,11 @@ class ShipDeck {
 	}
 
 	sayDeckA () {
-		let randomA = Math.floor(Math.random() * (0,  99)) + 1;
-		let randomAWS = Math.floor(Math.random() * (0,  2) + 1);
+		let randomA = Math.floor(Math.random() * (0,  99) + 1);
+		let randomAWS = Math.floor(Math.random() * (0,  2)) + 1;
 
 		if (
-			randomA < 69 &&
+			randomA <70 &&
 			randomAWS == 1 
 			) {
 			this.playerSea[randomA] = this.value;
@@ -222,7 +230,7 @@ class ShipDeck {
 		}
 
 		else if (
-			randomA < this.max - 10 + 5 &&
+			randomA < this.max - 10 + 7 &&
 			randomAWS == 2
 			) {
 			this.playerSea[randomA] = this.value;
@@ -291,25 +299,25 @@ function start (){
 		for(let i = 0; i < 1; i ++) {
 			// присваевает deck кораблю class
 			let item  = shipA.deck;
-			let shipDeckA = new ShipDeck(item, 'seaMillA', 'playerCompSea', 'comp');
+			let shipDeckA = new ShipDeck(item, 'seaMill', 'playerCompSea', 'comp');
 			shipDeckA.sayDeckA();
 		};
 
 		for(let i = 0; i < 2; i ++) {
 				let item  = shipB.deck;
-				let shipDeckB = new ShipDeck(item, 'seaMillB', 'playerCompSea', 'comp');
+				let shipDeckB = new ShipDeck(item, 'seaMill', 'playerCompSea', 'comp');
 				shipDeckB.sayDeckB();
 		}
 
 		for(let i = 0; i < 3; i ++) {
 				let item  = shipC.deck;
-				let shipDeckC = new ShipDeck(item, 'seaMillC', 'playerCompSea', 'comp');
+				let shipDeckC = new ShipDeck(item, 'seaMill', 'playerCompSea', 'comp');
 				shipDeckC.sayDeckC();
 		}
 
 		for(let i = 0; i < 4; i ++) {
 			let item  = shipD.deck;
-			let shipDeckD = new ShipDeck(item, 'seaMillD', 'playerCompSea', 'comp');
+			let shipDeckD = new ShipDeck(item, 'seaMill', 'playerCompSea', 'comp');
 			shipDeckD.sayDeck();
 		}
 	}
@@ -318,34 +326,96 @@ function start (){
 	playerComp();
 
 function goPlay () {
-		const seaMillComp = document.querySelectorAll('.seaMillComp');
-		const seaMillUser = document.querySelectorAll('.seaMillUser');
-			let runt = 'user';
-		if(runt === 'user') {
+	document.getElementById('massenge').innerHTML = 'Игра начилась! Сейчас ходит игрок: ВЫ.';
+	const seaMillComp = document.querySelectorAll('.seaMillComp');
+	const seaMillUser = document.querySelectorAll('.seaMillUser');
+		if('user' === 'user') {
 			for (let i = 0; i < seaMillComp.length; i++) {
 			    let clickUser = seaMillComp[i];
 			    clickUser.onclick = function(e) {
-			    	console.log("user",i, runt);
-			    	next();
-			    	document.getElementById('massenge').innerHTML = `ходит игрок ${runt}`;
-			    }
-			}
-		}
-		
-		next();
+			    	let long = 0;
+		    		document.getElementById('massenge').innerHTML = 'Сейчас ходит игрок: ВЫ.';
+		    				if(fireComp[i] == 0)
+			    			{
+			    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="dontFire">o</div>';
+			    				long++;
+			    			}
+			    			else if(
+			    				fireComp[i] == 1
+			    				) {
+			    				fireComp[i] == -1
+			    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillD"></div>';
+			    			}
+			    			else if(
+			    				fireComp[i] == 2
+			    				) {
+			    				fireComp[i] == -1
+			    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillC"></div>';
+			    			}
+			    			else if(
+			    				fireComp[i] == 3
+			    				) {
+			    				fireComp[i] == -1
+			    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillB"></div>';
+			    			}
+			    			else if(
+			    				fireComp[i] == 4
+			    				) {
+			    				fireComp[i] == -1
+			    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillA"></div>';
+			    			}
+			    			else if (fireComp[i] == -1) {
+			    				console.log("Игрок User попал по -1")
+			    			}
+			    			else{
+			    				console.log('err: что-то пошло не так!')
+			    			}
 
-		if(runt === 'comp') {
-			for (let i = 0; i < seaMillUser.length; i++) {
-			    let clickComp = seaMillUser[i];
-			    clickComp.onclick = function(e) {
-			    	console.log("comp",i, runt);
-			    	next();
-			    	document.getElementById('massenge').innerHTML = `ходит игрок ${runt}`;
-			    }
+
+			    	let comp = (()=> {
+			    		for (let i = 0; i < long; i++) {
+				    		let fire  = Math.floor(Math.random() * (0,  99)) + 1;
+			    			if(
+			    				fireUser[fire] == 0
+			    				) {
+			    				fireUser[fire] = -1;
+			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="dontFire">o</div>';
+			    			}
+			    			else if(
+			    				fireUser[fire] == 1
+			    				) {
+			    				fireUser[fire] = -1;
+			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+			    			}
+			    			else if(
+			    				fireUser[fire] == 2
+			    				) {
+			    				fireUser[fire] = -1;
+			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+			    			}
+			    			else if(
+			    				fireUser[fire] == 3
+			    				) {
+			    				fireUser[fire] = -1;
+			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+			    			}
+			    			else if(
+			    				fireUser[fire] == 4
+			    				) {
+			    				fireUser[fire] = -1;
+			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+			    			}
+			    			else if (fireUser[fire] == -1) {
+			    				console.log('Игорк Comp попал по -1');
+			    			}
+			    			else {
+			    				console.log('err: Что-то пошло не так!');
+			    			}
+			    		}
+			    	})();
+				}
 			}
-		}
-		function next() {
-			runt === 'user'? (runt = 'comp') : (runt = 'user');
+
 		}
 	}
 	goPlay();
