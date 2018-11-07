@@ -103,9 +103,9 @@
 .fire {
 	font-size: 25px;
 	text-align: center;
-	color: black;
+	color: red;
 }
 .dontFire {
 	font-size: 25px;
-	color: black;
+	color: yellow;
 } 
