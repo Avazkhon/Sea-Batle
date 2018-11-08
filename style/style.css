@@ -4,6 +4,7 @@
 	border: 1px solid;
 	border-radius: 25px;
 	margin: 0 auto;
+	background-color:  #c0c0c0;
 }
 #menu {
 	width: 660px;
@@ -14,8 +15,8 @@
 	float: left;
 }
 
-#menuLi {
-	width: 100px;
+#start, #finish {
+	width: 80px;
 	height: 50px;
 	border: 1px solid;
 	border-radius: 25px;
@@ -23,27 +24,22 @@
 	float: left;
 	text-align: center;
 	font-size: 20px;
+	box-shadow: 0 0 10px rgba(0,0,0,3);
+}
+#start:hover, #finish:hover {
+	box-shadow: 5px 5px 5px rgba(0,0,0,5);
+	cursor: pointer;
 }
 
 #massenge {
-	margin: 0 auto;
-	width: 450px;
-	height: 50px;
+	float: left;
+	width: 496px;
+	height: 48px;
 	border: 1px solid;
 	border-radius: 25px;
 	text-align: center;
 	font-size: 20px;
 }
-
-#finish {
-	float: right;
-	width: 100px;
-	height: 50px;
-	border: 1px solid;
-	border-radius: 25px;
-	font-size: 20px;
-}
-
 
 #playerUser {
 	width: 330px;
@@ -51,6 +47,7 @@
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
+	border-radius: 0.0px 0.0px 0.0px 16px;
 	background-image: url("../images/sea.jpg");
 }
 
@@ -60,6 +57,7 @@
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
+	border-radius: 0.0px 0.0px 16px 0.0px;
 	background-image: url("../images/sea.jpg");
 }
 
@@ -71,6 +69,10 @@
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
+}
+
+.seaMillUser,.seaMillComp {
+	cursor: pointer;
 }
 
 .seaMillA {
@@ -109,3 +111,9 @@
 	font-size: 25px;
 	color: yellow;
 } 
+
+.info {
+	margin: 0 85px;
+	color: white;
+	font-size: 20px;
+}

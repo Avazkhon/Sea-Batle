@@ -8,66 +8,36 @@ const shipC = {deck: 2}
 
 const shipD = {deck: 1}
 
-// let reset = 1;
 let fireComp;
 let fireUser;
 
 const hundred100 = 100;
 const hundred0 = 0;
 
-const sea = [
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0
-]
+const sea = [];
+const coordinates = [];
+
+function newSea() {
+	for (i = 0; i < 200; i++) {
+		 sea.push(0);
+	}
+
+}
+
+function newCoordinates () {
+	for (i = 0; i < 200; i++) {
+		 coordinates.push(i);
+	}
+}
 
 
-const coordinates = [
-	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-	'11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
-	'21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-	'31', '32', '33', '34', '35', '36', '37', '38', '39', '40',
-	'41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
-	'51', '52', '53', '54', '55', '56', '57', '58', '59', '60',
-	'61', '62', '63', '64', '65', '66', '67', '68', '69', '70',
-	'71', '72', '73', '74', '75', '76', '77', '78', '79', '80',
-	'81', '82', '83', '84', '85', '86', '87', '88', '89', '90',
-	'91', '92', '93', '94', '95', '96', '97', '98', '99',
-
-	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-	'11', '12', '13', '14', '15', '16', '17', '18', '19', '20', 
-	'21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
-	'31', '32', '33', '34', '35', '36', '37', '38', '39', '40',
-	'41', '42', '43', '44', '45', '46', '47', '48', '49', '50',
-	'51', '52', '53', '54', '55', '56', '57', '58', '59', '60',
-	'61', '62', '63', '64', '65', '66', '67', '68', '69', '70',
-	'71', '72', '73', '74', '75', '76', '77', '78', '79', '80',
-	'81', '82', '83', '84', '85', '86', '87', '88', '89', '90',
-	'91', '92', '93', '94', '95', '96', '97', '98', '99'
-]
-
+// name и name оп умолчанию
 function greet(name) {
 	return name? name : 'геймер';
 }
-let Name = greet(userName);
-document.getElementById('massenge').innerHTML = `${Name}, привет. Давай играть - кликни по кнопке Start! `;
+
+let Name = greet(userName); // глобальное name
+document.getElementById('massenge').innerHTML = `${Name}, привет. Давай играть - кликни по кнопке Start! `; //приветсвие
 
 
 // clsss для поиска свободного места в коорденате seaBatle
@@ -267,17 +237,24 @@ class ShipDeck {
 
 }
 
-// отрисовка блоков 
-for(let i = 0; i < 100; i++ ) {
-	document.getElementById('playerUser').innerHTML += `<div class='seaMillUser' id='playerUserSea${coordinates[i]}'></div>`;
-}
-for(let i = 0; i < 100; i++ ) {
-	document.getElementById('playerComp').innerHTML += `<div class='seaMillComp' id='playerCompSea${coordinates[i + hundred100]}'></div>`;
-}
+	//создание массива
+	newSea();
+	newCoordinates();
 
+	cell(); // создание клеток
 
 // страт и размищение кораблей
 function start (){
+
+	for (i = 0; i <199; i++ ) {
+		sea.pop();
+	}
+
+		//создание массива
+	newSea();
+	newCoordinates();
+
+	cell(); // создание клеток
 
 	let  playerUser =  () => {
 			// for определяет кол-во палуб и кораблей
@@ -335,113 +312,171 @@ function start (){
 			shipDeckD.sayDeck();
 		}
 	}
+
 	// инициализация function выше
 	playerUser();
 	playerComp();
-	// function игравого процесса 
+
+	goPlay(); // иницализация игрового процесса
+}
+// создание клеток
+function cell () {
+	// удалить содержание полей
+	document.getElementById("playerUser").innerHTML = `<div class='info'>Корабли ${Name}</div>`
+	document.getElementById("playerComp").innerHTML = `<div class='info'>Корабли comp</div>`;
+		// отрисовка блоков 
+	for(let i = 0; i < 100; i++ ) {
+		document.getElementById('playerUser').innerHTML += `<div class='seaMillUser' id='playerUserSea${coordinates[i]}'></div>`;
+	}
+	for(let i = 0; i < 100; i++ ) {
+		document.getElementById('playerComp').innerHTML += `<div class='seaMillComp' id='playerCompSea${coordinates[i + hundred100]}'></div>`;
+	}
+}
+
+// иницализация игрового процесса
 function goPlay () {
 	// сообщение для игрока
 	document.getElementById('massenge').innerHTML = `Игра начилась! Сейчас ходит игрок: ${Name}.`;
 	// переменные игровых полей соотвественно
 	const seaMillComp = document.querySelectorAll('.seaMillComp');
 	const seaMillUser = document.querySelectorAll('.seaMillUser');
-		// ход игры начинается с пользователя
-		if('user' === 'user') {
-			// отслежевание нажатия миши по полю comp
-			for (let i = 0; i < seaMillComp.length; i++) {
-			    let clickUser = seaMillComp[i];
-			    clickUser.onclick = function(e) {
-			    	i = i + hundred100;
-			    	console.log(i);
-			    	// переменная для отслеживания очередности ходов
-			    	let long = 0;
-			    	// сообщение для игрока
-		    		document.getElementById('massenge').innerHTML = `Сейчас ходит игрок: ${Name}.`;
-		    				// если попал по пустой ячейки
-		    				if(sea[i] == 0)
-			    			{
-			    				sea[i] = -1	//назначить место 0 = - 1 
-			    				document.getElementById(`playerCompSea${i - hundred100}`).innerHTML = '<div class="dontFire">o</div>'; //указунной ячейки создать div
-			    				long++; //передать ход Comp
-			    			}
-			    			else if(
-			    				sea[i] == 1
-			    				) {
-			    				sea[i] = -1
-			    				document.getElementById(`playerCompSea${i - hundred100}`).innerHTML = '<div class="seaMillD"></div>';
-			    			}
-			    			else if(
-			    				sea[i] == 2
-			    				) {
-			    				sea[i] = -1
-			    				document.getElementById(`playerCompSea${i - hundred100}`).innerHTML = '<div class="seaMillC"></div>';
-			    			}
-			    			else if(
-			    				sea[i] == 3
-			    				) {
-			    				sea[i] = -1
-			    				document.getElementById(`playerCompSea${i - hundred100}`).innerHTML = '<div class="seaMillB"></div>';
-			    			}
-			    			else if(
-			    				sea[i] == 4
-			    				) {
-			    				sea[i] = -1
-			    				document.getElementById(`playerCompSea${i - hundred100}`).innerHTML = '<div class="seaMillA"></div>';
-			    			}
-			    			else if (sea[i] == -1) {
-			    				console.log(fireUser, sea);
-			    				console.log("Игрок User попал по -1")
-			    			}
-			    			else{
-			    				console.log('err: что-то пошло не так!')
-			    			}
+	let victoriesUser = 0; 
+	// ход игры начинается с пользователя
+	if('user' === 'user') {
+		// отслежевание нажатия миши по полю comp
+		for (let i = 0; i < seaMillComp.length; i++) {
+		    let clickUser = seaMillComp[i];
 
-			    			// самовызывающаяся function
-			    	let comp = (()=> {
-			    		for (let i = 0; i < long; i++) { //условия для передачи хода к Comp
-				    		let fire  = Math.floor(Math.random() * (0,  99) + 1);
-			    			if(
-			    				sea[fire] == 0 //если попал по пустой ячейкиб то ...
-			    				) {
-			    				sea[fire] = -1; // заменить 0 = - 1
-			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="dontFire">o</div>';
-			    			}
-			    			else if(
-			    				sea[fire] == 1
-			    				) {
-			    				sea[fire] = -1;
-			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-			    			}
-			    			else if(
-			    				sea[fire] == 2
-			    				) {
-			    				sea[fire] = -1;
-			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-			    			}
-			    			else if(
-			    				sea[fire] == 3
-			    				) {
-			    				sea[fire] = -1;
-			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-			    			}
-			    			else if(
-			    				sea[fire] == 4
-			    				) {
-			    				sea[fire] = -1;
-			    				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-			    			}
-			    			else if (sea[fire] == -1) {
-			    				console.log('Игорк Comp попал по -1');
-			    			}
-			    			else {
-			    				console.log('err: Что-то пошло не так!');
-			    			}
-			    		}
-			    	})();
-				}
+		    clickUser.onclick = function(e) {
+		    	i = i + hundred100;
+		    	// сообщение для игрока
+	    		document.getElementById('massenge').innerHTML = `Сейчас ходит игрок: ${Name}.`;
+
+    				// если попал по пустой ячейки
+    				if(sea[i] == 0)
+	    			{
+	    				sea[i] = -1	//назначить место 0 = - 1 
+	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="dontFire">o</div>'; //указунной ячейки создать div
+	    				comp();
+
+	    			}
+	    			else if (
+	    				sea[i] == 1
+	    				) {
+	    				sea[i] = -1
+	    				victoriesUser ++; // плюс + 1 очко
+	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillD"></div>';
+	    			}
+	    			else if (
+	    				sea[i] == 2
+	    				) {
+	    				sea[i] = -1
+	    				victoriesUser ++;
+	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillC"></div>';
+	    			}
+	    			else if (
+	    				sea[i] == 3
+	    				) {
+	    				sea[i] = -1
+	    				victoriesUser ++;
+	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillB"></div>';
+	    			}
+	    			else if (
+	    				sea[i] == 4
+	    				) {
+	    				sea[i] = -1
+	    				victoriesUser ++ ;
+	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillA"></div>';
+	    			}
+	    			else if (sea[i] = -1) {
+	    				document.getElementById('massenge').innerHTML = `${Name}, стреляй по другой клетке!`;
+	    			}
+	    			else{
+	    				console.log('err: что-то пошло не так!')
+	    			}
+	    					    // проверка на победу
+	    		if (victoriesUser === 20) {
+	    			victories('user');	
+	    		}
 			}
-
 		}
 	}
-	goPlay(); // иницализация игрового процесса
 }
+
+ // выстрели comp
+function comp() {
+	let victoriesComp = 0;
+		(()=> {
+			let fire  = Math.floor(Math.random() * (0,  99));
+			if (
+				sea[fire] == 0 //если попал по пустой ячейкиб то ...
+				) {
+				sea[fire] = -1; // заменить 0 = - 1
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="dontFire">o</div>';
+			}
+			else if (
+				sea[fire] == 1
+				) {
+				sea[fire] = -1;
+				victoriesComp++;
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+				comp();
+			}
+			else if (
+				sea[fire] == 2
+				) {
+				sea[fire] = -1;
+				victoriesComp++;
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+				comp();
+			}
+			else if (
+				sea[fire] == 3
+				) {
+				sea[fire] = -1;
+				victoriesComp++;
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+				comp();
+			}
+			else if (
+				sea[fire] == 4
+				) {
+				sea[fire] = -1;
+				victoriesComp++;
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
+				comp();
+			}
+			else if (sea[fire] == -1) {
+				console.log('Игорк Comp попал по -1');
+				comp();
+			} 
+			else {
+				console.log('err: Что-то пошло не так!');
+			}
+		})();
+	if (victoriesComp === 20) {
+		alert('comp');
+	} 
+};
+
+// фукция проверки на победу 
+function victories (victoriesPlayer) {
+		// если победил user
+	if (victoriesPlayer === 'user') {
+		alert("victories user");
+		//ниформация о победителе
+		document.getElementById('playerUser').innerHTML = `<div>${Name} победил!</div>`;
+		document.getElementById('playerUser').innerHTML = '<div> Comp проиграл!</div>';
+		cell();
+	}
+		// если победил comp
+	else if (victoriesPlayer === 'comp') {
+		alert("victories comp");
+		cell();
+		document.getElementById('playerUser').innerHTML = `<div>${Name} проиграл!</div>`;
+		document.getElementById('playerUser').innerHTML = '<div> Comp выиграл!</div>';
+	}
+	else {
+		console.log('err: ошибка в выборе победителя.')
+	}
+};
