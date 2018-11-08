@@ -44,6 +44,7 @@
 #playerUser {
 	width: 330px;
 	height: 330px;
+	padding-left: 8px;
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
@@ -54,6 +55,7 @@
 #playerComp {
 	width: 330px;
 	height: 330px;
+	padding-left: 8px;
 	border: 1px solid;
 	box-sizing: border-box;
 	float: left;
@@ -61,7 +63,7 @@
 	background-image: url("../images/sea.jpg");
 }
 
-.seaMillUser,.seaMillComp
+.seaMillUser, .seaMillComp
  {
 	width: 25px;
 	height: 25px;
@@ -113,7 +115,13 @@
 } 
 
 .info {
-	margin: 0 85px;
+	margin: 0 auto;
 	color: white;
 	font-size: 20px;
+}
+
+.winnerLoser {
+	color: white;
+	margin: 100px 50px;
+	font-size: 40px;
 }

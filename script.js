@@ -54,7 +54,7 @@ class ShipDeck {
 	}
 
 	sayDeck () {
-		let num = Math.floor(Math.random() * (0,  99)+ 1 + this.hundred);
+		let num = Math.floor(Math.random() * (0,  99) + this.hundred);
 		if (
 			this.sea[num] == 0 &&
 			this.sea[num + 1] == 0 &&
@@ -77,7 +77,7 @@ class ShipDeck {
 
 	sayDeckC() {
 		// определяет коорденаты
-		let randomC = Math.floor(Math.random() * (0,  99) + 1+ this.hundred);
+		let randomC = Math.floor(Math.random() * (0,  99)+ this.hundred);
 		// определяет положения относительно sea
 		let randomCWS = Math.floor(Math.random() * (0,  2)) + 1; // 1 верикальною, 2 вертикально
 			if (
@@ -136,7 +136,7 @@ class ShipDeck {
 
 
 	sayDeckB() {
-		let randomB = Math.floor(Math.random() * (0,  99) + 1 + this.hundred);
+		let randomB = Math.floor(Math.random() * (0,  99) + this.hundred);
 		let randomBWS = Math.floor(Math.random() * (0,  2)) + 1;
 			if (
 				randomB < 80 + this.hundred &&
@@ -197,7 +197,7 @@ class ShipDeck {
 	}
 
 	sayDeckA () {
-		let randomA = Math.floor(Math.random() * (0,  99) + 1 + this.hundred);
+		let randomA = Math.floor(Math.random() * (0,  99) + this.hundred);
 		let randomAWS = Math.floor(Math.random() * (0,  2)) + 1;
 
 		if (
@@ -323,7 +323,7 @@ function start (){
 function cell () {
 	// удалить содержание полей
 	document.getElementById("playerUser").innerHTML = `<div class='info'>Корабли ${Name}</div>`
-	document.getElementById("playerComp").innerHTML = `<div class='info'>Корабли comp</div>`;
+	document.getElementById("playerComp").innerHTML = `<div class='info'>Корабли Компьютер</div>`;
 		// отрисовка блоков 
 	for(let i = 0; i < 100; i++ ) {
 		document.getElementById('playerUser').innerHTML += `<div class='seaMillUser' id='playerUserSea${coordinates[i]}'></div>`;
@@ -447,7 +447,6 @@ function comp() {
 				comp();
 			}
 			else if (sea[fire] == -1) {
-				console.log('Игорк Comp попал по -1');
 				comp();
 			} 
 			else {
@@ -463,18 +462,16 @@ function comp() {
 function victories (victoriesPlayer) {
 		// если победил user
 	if (victoriesPlayer === 'user') {
-		alert("victories user");
 		//ниформация о победителе
-		document.getElementById('playerUser').innerHTML = `<div>${Name} победил!</div>`;
-		document.getElementById('playerUser').innerHTML = '<div> Comp проиграл!</div>';
-		cell();
+		document.getElementById('playerUser').innerHTML = `<div class="winnerLoser">${Name} победил!</div>`;
+		document.getElementById('playerComp').innerHTML = `<div class="winnerLoser">Компьютер проиграл!</div>`;
+		// cell();
 	}
 		// если победил comp
 	else if (victoriesPlayer === 'comp') {
-		alert("victories comp");
-		cell();
-		document.getElementById('playerUser').innerHTML = `<div>${Name} проиграл!</div>`;
-		document.getElementById('playerUser').innerHTML = '<div> Comp выиграл!</div>';
+		// cell();
+		document.getElementById('playerUser').innerHTML = `<div class="winnerLoser">${Name} проиграл!</div>`;
+		document.getElementById('playerComp').innerHTML = `<div class="winnerLoser">Компьютер победил!</div>`;
 	}
 	else {
 		console.log('err: ошибка в выборе победителя.')
