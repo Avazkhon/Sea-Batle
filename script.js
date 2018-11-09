@@ -246,7 +246,7 @@ class ShipDeck {
 // страт и размищение кораблей
 function start (){
 
-	for (i = 0; i <199; i++ ) {
+	for (i = 0; i <200; i++ ) {
 		sea.pop();
 	}
 
@@ -356,33 +356,33 @@ function goPlay () {
     				if(sea[i] == 0)
 	    			{
 	    				sea[i] = -1	//назначить место 0 = - 1 
-	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="dontFire">o</div>'; //указунной ячейки создать div
+	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="dontFire">0</div>'; //указунной ячейки создать div
 	    				comp();
 
 	    			}
 	    			else if (
-	    				sea[i] == 1
+	    				sea[i] == shipD.deck
 	    				) {
 	    				sea[i] = -1
 	    				victoriesUser ++; // плюс + 1 очко
 	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillD"></div>';
 	    			}
 	    			else if (
-	    				sea[i] == 2
+	    				sea[i] == shipC.deck
 	    				) {
 	    				sea[i] = -1
 	    				victoriesUser ++;
 	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillC"></div>';
 	    			}
 	    			else if (
-	    				sea[i] == 3
+	    				sea[i] == shipB.deck
 	    				) {
 	    				sea[i] = -1
 	    				victoriesUser ++;
 	    				document.getElementById(`playerCompSea${i}`).innerHTML = '<div class="seaMillB"></div>';
 	    			}
 	    			else if (
-	    				sea[i] == 4
+	    				sea[i] == shipA.deck
 	    				) {
 	    				sea[i] = -1
 	    				victoriesUser ++ ;
@@ -405,46 +405,49 @@ function goPlay () {
 
  // выстрели comp
 function comp() {
+	let fixationFire = [];
+	let fire;
 	let victoriesComp = 0;
 		(()=> {
-			let fire  = Math.floor(Math.random() * (0,  99));
+			fire  = Math.floor(Math.random() * (0,  99));
+
 			if (
 				sea[fire] == 0 //если попал по пустой ячейкиб то ...
 				) {
 				sea[fire] = -1; // заменить 0 = - 1
-				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="dontFire">o</div>';
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="dontFire">0</div>';
 			}
 			else if (
 				sea[fire] == 1
 				) {
 				sea[fire] = -1;
 				victoriesComp++;
-				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-				comp();
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">X</div>';
+				comp(); //дополнительный выстрел Comp
 			}
 			else if (
 				sea[fire] == 2
 				) {
 				sea[fire] = -1;
 				victoriesComp++;
-				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-				comp();
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">X</div>';
+				cell9(2); //добивающий выстрел
 			}
 			else if (
 				sea[fire] == 3
 				) {
 				sea[fire] = -1;
 				victoriesComp++;
-				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-				comp();
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">X</div>';
+				cell9(3);
 			}
 			else if (
 				sea[fire] == 4
 				) {
 				sea[fire] = -1;
 				victoriesComp++;
-				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">x</div>';
-				comp();
+				document.getElementById(`playerUserSea${fire}`).innerHTML = '<div class="fire">X</div>';
+				cell9(4);
 			}
 			else if (sea[fire] == -1) {
 				comp();
@@ -454,7 +457,58 @@ function comp() {
 			}
 		})();
 	if (victoriesComp === 20) {
-		alert('comp');
+		victories('comp');
+	} 
+
+	//добивающий выстрел Comp
+	function cell9 (deck) {
+		fixationFire.push(fire);
+		let fixation = fixationFire[fixationFire.length - 1];
+		this.deck = deck;
+		let cill = 0; // статус корабля
+		//выбор слетки для выстрела
+		let cell = [
+			-10, //верхняя
+		-1,       1, // слева, с права
+			 10	//снизу
+		]
+			//рандомно выбрать из массива
+		let newFire = Math.floor(Math.random() * cell.length);
+			// (arr.sea[рандомный выстрел материнской функции + arr.cell[рандомный выстрел]] == 0) (если попал по пустой клетки) то...
+		if(sea[ fixation + cell[newFire]] === 0) {
+			document.getElementById(`playerUserSea${fixation + cell[newFire]}`).innerHTML = '<div class="dontFire">0</div>'; //обозначить место поподания
+			sea[cell[newFire]] = -1; // заменить значение масива с 0 на -1
+			console.log('опал по 0');
+		}
+
+		else if (sea[ fixation + cell[newFire]] === this.deck ) { //если равен значению палубы. к примеру 2 то ...
+			document.getElementById(`playerUserSea${fixation + cell[newFire]}`).innerHTML = '<div class="fire">X</div>';  //обозначить место поподания
+			sea[cell[newFire]] = -1; // заменить значение массива с палубы к примеру 2 на -1
+			victoriesComp++;  // добавить очко для победы
+			cill++ //добавть ранение
+			//если ранил количеству равную палубе например 2 то ...
+			if(cill = this.deck) {
+				comp();	//запустить материнскую функцию
+				cill = 0; //обнулить счет
+			}
+
+			else if(fixation == undefine) {
+				comp();
+				console.log('err: ошибка при добивающем выстреле.');
+			}
+			cell9(this.deck);
+			console.log(`Попал по кораблю!`);
+		}
+		else if(sea[ fixation + cell[newFire]] === -1) {
+			cell9(this.deck);
+			console.log('Попал по -1');
+		}
+		else {
+			console.log('comp повторно не смог выстрельнуть!', sea[ fixation + cell[newFire]], this.deck);
+		}
+	}
+	if (victoriesComp === 20) {
+		victories('comp');
 	} 
 };
 
@@ -465,13 +519,14 @@ function victories (victoriesPlayer) {
 		//ниформация о победителе
 		document.getElementById('playerUser').innerHTML = `<div class="winnerLoser">${Name} победил!</div>`;
 		document.getElementById('playerComp').innerHTML = `<div class="winnerLoser">Компьютер проиграл!</div>`;
-		// cell();
+		document.getElementById('massenge').innerHTML = `Поздравляю, капитан ${Name}! Вы, Победили!`;
 	}
 		// если победил comp
-	else if (victoriesPlayer === 'comp') {
-		// cell();
+	 else if (victoriesPlayer === 'comp') {
 		document.getElementById('playerUser').innerHTML = `<div class="winnerLoser">${Name} проиграл!</div>`;
 		document.getElementById('playerComp').innerHTML = `<div class="winnerLoser">Компьютер победил!</div>`;
+		document.getElementById('massenge').innerHTML = `К сожалению, ${Name}, в этот раз вы проиграли!`;
+		console.log('победил comp.');
 	}
 	else {
 		console.log('err: ошибка в выборе победителя.')
